@@ -1,10 +1,29 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    private static GameManager Instance;
+    public GameObject Drop;
+    int num = 130;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject); 
+        }
+    }
+
     void Start()
     {
-        
+        StartCoroutine(spwanWater());
     }
 
     void Update()
@@ -30,5 +49,21 @@ public class GameManager : MonoBehaviour
             }
         }
 
+    }
+
+    IEnumerator spwanWater()
+    {
+        while (num > 0)
+        {
+            yield return new WaitForSeconds(0.05f);
+            Instantiate(Drop, transform.position, transform.rotation);
+
+            num--;
+        }
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene("GameScene");
     }
 }

@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class ColliderLogic : MonoBehaviour
 {
-    Collider2D collider;
+    private Collider2D collide;
 
     void Start()
     {
-        collider = GetComponent<Collider2D>();
+        collide = GetComponent<Collider2D>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Active"))
         {
-            if (collider != null) 
+            if (collide != null) 
             {
-                collider.isTrigger = false;
+                collide.isTrigger = false;
             }
         }
     }
