@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,6 +16,10 @@ public class GameManager : MonoBehaviour
 
     PanelManager panelManager;
 
+    public int currnetLevels = 0;
+    public GameObject currentLevelPrefabs;
+
+    public List<GameObject> levels;
 
     void Awake()
     {
@@ -111,6 +116,27 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SpawnLevels()
+    {
+        if (SceneManager.GetActiveScene().name == "GameScene")
+        {
+            if (currentLevelPrefabs != null)
+            {
+                Destroy(currentLevelPrefabs.gameObject);
+            }
+
+            Vector3 spawnPos = new Vector3(0, 0, 0);
+            Quaternion spawnRot = Quaternion.Euler(0, 0, 0);
+
+            Instantiate(levels[currnetLevels], spawnPos, spawnRot);
+
+            panelManager.LevelText.text = "Level - " + (currnetLevels + 1);
+
+            currnetLevels++;
+        }
+        
     }
 
 }

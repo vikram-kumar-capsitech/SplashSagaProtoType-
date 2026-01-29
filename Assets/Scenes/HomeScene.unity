@@ -555,6 +555,14 @@ MonoBehaviour:
   Drop: {fileID: 462792042245389618, guid: 96af390af2a4ca74dba2173976ce77e8, type: 3}
   isWater: 0
   isGameOver: 0
+  currnetLevels: 0
+  currentLevelPrefabs: {fileID: 0}
+  levels:
+  - {fileID: 1225351182638015064, guid: 3653e902c6f17264085124bfd2a6e831, type: 3}
+  - {fileID: 1225351182638015064, guid: 831be49ef4229964d8c6a67b7b1c4355, type: 3}
+  - {fileID: 1225351182638015064, guid: 64eeb246bea77f446806cf2c241f3f9b, type: 3}
+  - {fileID: 1225351182638015064, guid: e78d7ba46e0dbfa409847c74bb86e4bd, type: 3}
+  - {fileID: 1225351182638015064, guid: f61de30e6c9994f48bd1ca22a452393f, type: 3}
 --- !u!1 &1246359159
 GameObject:
   m_ObjectHideFlags: 0
@@ -1094,7 +1102,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 1920}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0.5
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96

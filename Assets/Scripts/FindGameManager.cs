@@ -13,5 +13,6 @@ public class FindGameManager : MonoBehaviour
     public void startButton()
     {
         SceneManager.LoadScene("GameScene");
+        gameManager.SpawnLevels();
     }
 }

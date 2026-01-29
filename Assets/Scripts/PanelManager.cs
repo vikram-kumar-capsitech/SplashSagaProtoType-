@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,14 @@ public class PanelManager : MonoBehaviour
     public GameObject WinPanel;
 
     public GameObject PauseButton;
+    public TextMeshProUGUI LevelText;
+
+    GameManager gameManager;
+
+    void Start()
+    {
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+    }
 
     public void pauseButton()
     {
@@ -31,5 +40,9 @@ public class PanelManager : MonoBehaviour
     public void restartButton()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    public void nextLevels()
+    {
+        gameManager.SpawnLevels();
     }
 }
