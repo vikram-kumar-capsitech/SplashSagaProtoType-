@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 3383c94c4db682944827ee4481110113
+guid: e80d817dc68765b4f93830df9d8f4197
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5760202260919997367
-    second: BackGround_0
+      213: -2201435034408673006
+    second: ChatGPT Image Jan 29, 2026, 04_00_24 PM-Photoroom_0
+  - first:
+      213: 4695887554320810599
+    second: ChatGPT Image Jan 29, 2026, 04_00_24 PM-Photoroom_1
+  - first:
+      213: -7203785500382631007
+    second: ChatGPT Image Jan 29, 2026, 04_00_24 PM-Photoroom_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -24,7 +30,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -37,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -47,8 +53,8 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 28
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -178,23 +184,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BackGround_0
+      name: ChatGPT Image Jan 29, 2026, 04_00_24 PM-Photoroom_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1024
-        height: 1536
+        x: 346
+        y: 610
+        width: 584
+        height: 191
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7b3d98cff6950ff40800000000000000
-      internalID: 5760202260919997367
+      spriteID: 211a8f9ff7ee271e0800000000000000
+      internalID: -2201435034408673006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChatGPT Image Jan 29, 2026, 04_00_24 PM-Photoroom_1
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 382
+        width: 584
+        height: 191
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 762487cc9d42b2140800000000000000
+      internalID: 4695887554320810599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChatGPT Image Jan 29, 2026, 04_00_24 PM-Photoroom_2
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 171
+        width: 584
+        height: 191
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ab65933143070c90800000000000000
+      internalID: -7203785500382631007
       vertices: []
       indices: 
       edges: []
@@ -203,7 +253,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -213,7 +263,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BackGround_0: 5760202260919997367
+      ChatGPT Image Jan 29, 2026, 04_00_24 PM-Photoroom_0: -2201435034408673006
+      ChatGPT Image Jan 29, 2026, 04_00_24 PM-Photoroom_1: 4695887554320810599
+      ChatGPT Image Jan 29, 2026, 04_00_24 PM-Photoroom_2: -7203785500382631007
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

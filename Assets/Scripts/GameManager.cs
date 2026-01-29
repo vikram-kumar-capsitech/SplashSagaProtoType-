@@ -11,6 +11,10 @@ public class GameManager : MonoBehaviour
 
     public bool isWater;
     bool waterStarted = false;
+    public bool isGameOver = false;
+
+    PanelManager panelManager;
+
 
     void Awake()
     {
@@ -58,21 +62,55 @@ public class GameManager : MonoBehaviour
             waterStarted = true;
             StartCoroutine(SpawnWater());
         }
+
+        
+        if (panelManager == null && SceneManager.GetActiveScene().name == "GameScene")
+        {
+            panelManager = GameObject.Find("Panel Manager").GetComponent<PanelManager>();
+        }
     }
+
 
     IEnumerator SpawnWater()
     {
         while (num > 0)
         {
             yield return new WaitForSeconds(0.05f);
-            Instantiate(Drop, transform.position, transform.rotation);
+            Vector3 offset = new Vector3 (1, 0, 0);
+
+            Vector3 minBounds = transform.position - offset;
+            Vector3 maxBounds = transform.position + offset;
+
+            Vector3 spawnPos = new Vector3(
+                Random.Range(minBounds.x, maxBounds.x), 
+                Random.Range(minBounds.y, maxBounds.y), 
+                Random.Range(minBounds.z, maxBounds.z)  
+            );
+            Instantiate(Drop, spawnPos, transform.rotation);
 
             num--;
         }
+        if (num == 0)
+        {
+            yield return new WaitForSeconds(2.5f);
+
+            if (!isGameOver)
+            {
+                if (panelManager.WinPanel != null)
+                {
+                    panelManager.WinPanel.SetActive(true);
+                    panelManager.PauseButton.SetActive(false);
+                }
+            }
+            if (isGameOver)
+            {
+                if (panelManager.LosePanel != null)
+                {
+                    panelManager.LosePanel.SetActive(true);
+                    panelManager.PauseButton.SetActive(false);
+                }
+            }
+        }
     }
 
-    public void StartGame()
-    {
-        SceneManager.LoadScene("GameScene");
-    }
 }

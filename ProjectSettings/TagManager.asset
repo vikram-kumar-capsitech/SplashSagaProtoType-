@@ -9,6 +9,8 @@ TagManager:
   - MoveTile
   - Ground
   - Active
+  - Metaball_liquid
+  - Water
   layers:
   - Default
   - TransparentFX

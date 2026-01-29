@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 3383c94c4db682944827ee4481110113
+guid: 3eba423a9612d8543b15a962e0a63a7b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5760202260919997367
-    second: BackGround_0
+      213: 8427671711621805670
+    second: Cry Sponge Face_0
+  - first:
+      213: -7836191186133766999
+    second: Cry Sponge Face_1
+  - first:
+      213: 3877439653596365588
+    second: Cry Sponge Face_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -178,13 +184,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BackGround_0
+      name: Cry Sponge Face_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 11
         y: 0
-        width: 1024
-        height: 1536
+        width: 1494
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,8 +199,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7b3d98cff6950ff40800000000000000
-      internalID: 5760202260919997367
+      spriteID: 66673de15ca15f470800000000000000
+      internalID: 8427671711621805670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cry Sponge Face_1
+      rect:
+        serializedVersion: 2
+        x: 1110
+        y: 489
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ac237652a1404390800000000000000
+      internalID: -7836191186133766999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cry Sponge Face_2
+      rect:
+        serializedVersion: 2
+        x: 764
+        y: 219
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41300a642de6fc530800000000000000
+      internalID: 3877439653596365588
       vertices: []
       indices: 
       edges: []
@@ -213,7 +263,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BackGround_0: 5760202260919997367
+      Cry Sponge Face_0: 8427671711621805670
+      Cry Sponge Face_1: -7836191186133766999
+      Cry Sponge Face_2: 3877439653596365588
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
