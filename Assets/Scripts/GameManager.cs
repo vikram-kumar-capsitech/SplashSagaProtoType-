@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +8,9 @@ public class GameManager : MonoBehaviour
     private static GameManager Instance;
     public GameObject Drop;
     int num = 130;
+
+    public bool isWater;
+    bool waterStarted = false;
 
     void Awake()
     {
@@ -17,26 +21,27 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject); 
+            Destroy(gameObject);
         }
     }
 
     void Start()
     {
-        StartCoroutine(spwanWater());
+
     }
 
     void Update()
     {
 
-        if (Input.GetMouseButtonDown(0)) 
+        if (Input.GetMouseButtonDown(0))
+
         {
 
             Vector2 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            Collider2D hit = Physics2D.OverlapCircle(mousepos,0.1f);
+            Collider2D hit = Physics2D.OverlapCircle(mousepos, 0.1f);
 
-            if (hit != null) 
+            if (hit != null)
             {
                 if (!hit.gameObject.CompareTag("Ground"))
                 {
@@ -48,10 +53,14 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-
+        if (isWater && !waterStarted)
+        {
+            waterStarted = true;
+            StartCoroutine(SpawnWater());
+        }
     }
 
-    IEnumerator spwanWater()
+    IEnumerator SpawnWater()
     {
         while (num > 0)
         {
