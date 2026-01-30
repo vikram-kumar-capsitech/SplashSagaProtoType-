@@ -557,11 +557,11 @@ MonoBehaviour:
   isWater: 0
   isGameOver: 0
   levels:
-  - {fileID: 1225351182638015064, guid: 3653e902c6f17264085124bfd2a6e831, type: 3}
   - {fileID: 1225351182638015064, guid: 831be49ef4229964d8c6a67b7b1c4355, type: 3}
   - {fileID: 1225351182638015064, guid: 64eeb246bea77f446806cf2c241f3f9b, type: 3}
   - {fileID: 1225351182638015064, guid: e78d7ba46e0dbfa409847c74bb86e4bd, type: 3}
   - {fileID: 1225351182638015064, guid: f61de30e6c9994f48bd1ca22a452393f, type: 3}
+  - {fileID: 1225351182638015064, guid: 3653e902c6f17264085124bfd2a6e831, type: 3}
   currentLevelPrefab: {fileID: 0}
   currnetLevels: 0
 --- !u!1 &1246359159
