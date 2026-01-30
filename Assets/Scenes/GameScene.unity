@@ -203,7 +203,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1722971761}
         m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
-        m_MethodName: restartButton
+        m_MethodName: RestartButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -622,7 +622,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1722971761}
         m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
-        m_MethodName: nextLevels
+        m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -886,7 +886,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1722971761}
         m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
-        m_MethodName: restartButton
+        m_MethodName: RestartButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1155,7 +1155,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1722971761}
         m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
-        m_MethodName: closeButton
+        m_MethodName: ClosePause
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1791,7 +1791,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1722971761}
         m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
-        m_MethodName: closeButton
+        m_MethodName: ClosePause
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1978,7 +1978,7 @@ MonoBehaviour:
   LosePanel: {fileID: 564088417}
   WinPanel: {fileID: 871469944}
   PauseButton: {fileID: 1253254612}
-  LevelText: {fileID: 0}
+  LevelText: {fileID: 1939727689}
 --- !u!4 &1722971762
 Transform:
   m_ObjectHideFlags: 0
@@ -2157,7 +2157,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1722971761}
         m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
-        m_MethodName: restartButton
+        m_MethodName: RestartButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

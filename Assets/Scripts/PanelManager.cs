@@ -15,34 +15,39 @@ public class PanelManager : MonoBehaviour
 
     void Start()
     {
-        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        gameManager = GameManager.Instance;
     }
 
-    public void pauseButton()
+    public void PauseButtonClick()
     {
         Time.timeScale = 0f;
         PausePanel.SetActive(true);
         PauseButton.SetActive(false);
     }
 
-    public void HomeButton()
-    {
-        SceneManager.LoadScene("HomeScene");
-    }
-
-    public void closeButton()
+    public void ClosePause()
     {
         Time.timeScale = 1f;
         PausePanel.SetActive(false);
         PauseButton.SetActive(true);
     }
 
-    public void restartButton()
+    public void HomeButton()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("HomeScene");
     }
-    public void nextLevels()
+
+    public void RestartButton()
     {
-        gameManager.SpawnLevels();
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void NextLevel()
+    {
+        gameManager.currnetLevels++;
+        Time.timeScale = 1f;
+        gameManager.SpawnLevel();
     }
 }

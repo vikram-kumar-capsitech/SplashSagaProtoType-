@@ -2,24 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager Instance;
+    public static GameManager Instance;
+
+    [Header("Water Settings")]
     public GameObject Drop;
-    int num = 130;
+    public int num = 130;
 
     public bool isWater;
-    bool waterStarted = false;
-    public bool isGameOver = false;
+    bool waterStarted;
+    public bool isGameOver;
+
+    [Header("Levels")]
+    public List<GameObject> levels;
+    public GameObject currentLevelPrefab;
+    public int currnetLevels = 0;
 
     PanelManager panelManager;
-
-    public int currnetLevels = 0;
-    public GameObject currentLevelPrefabs;
-
-    public List<GameObject> levels;
+    bool isSpawn;
 
     void Awake()
     {
@@ -32,111 +36,158 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        
+            isWater = false;
+            waterStarted = false;
+            isGameOver = false;
     }
 
-    void Start()
+    void OnEnable()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "GameScene")
+        {
+            panelManager = GameObject.Find("Panel Manager")?.GetComponent<PanelManager>();
+            StopAllCoroutines();
+            SpawnLevel();
+        }
     }
 
     void Update()
     {
-
         if (Input.GetMouseButtonDown(0))
-
         {
-
             Vector2 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
             Collider2D hit = Physics2D.OverlapCircle(mousepos, 0.1f);
 
-            if (hit != null)
+            if (hit != null && !hit.CompareTag("Ground"))
             {
-                if (!hit.gameObject.CompareTag("Ground"))
-                {
-                    Rigidbody2D rb = hit.gameObject.GetComponent<Rigidbody2D>();
-                    rb.gravityScale = 1.0f;
+                Rigidbody2D rb = hit.GetComponent<Rigidbody2D>();
+                if (rb != null)
+                    rb.gravityScale = 1f;
 
-                    SpriteRenderer image = hit.gameObject.GetComponent<SpriteRenderer>();
-                    image.color = Color.white;
-                }
+                SpriteRenderer sr = hit.GetComponent<SpriteRenderer>();
+                if (sr != null)
+                    sr.color = Color.white;
             }
         }
+
         if (isWater && !waterStarted)
         {
             waterStarted = true;
             StartCoroutine(SpawnWater());
         }
 
-        
-        if (panelManager == null && SceneManager.GetActiveScene().name == "GameScene")
+    }
+    private void FixedUpdate()
+    {
+        if (SceneManager.GetActiveScene().name != "GameScene")
+            return;
+
+        if (AllCollidersAreNotTrigger())
         {
-            panelManager = GameObject.Find("Panel Manager").GetComponent<PanelManager>();
+            isWater = true;
         }
     }
 
+    bool AllCollidersAreNotTrigger()
+    {
+        Collider2D[] colliders = GameObject.FindObjectsByType<Collider2D>(
+            FindObjectsSortMode.None
+        );
+        Debug.Log(colliders.Length);
+        foreach (Collider2D col in colliders)
+        {
+            if (col.isTrigger)
+            {
+                return false;
+            }
+        }   
+        return true; 
+    }
 
     IEnumerator SpawnWater()
     {
-        while (num > 0)
+        int count = num;
+
+        while (count > 0)
         {
             yield return new WaitForSeconds(0.05f);
-            Vector3 offset = new Vector3 (1, 0, 0);
 
-            Vector3 minBounds = transform.position - offset;
-            Vector3 maxBounds = transform.position + offset;
+            Vector3 spawnPos = transform.position + new Vector3(Random.Range(-1f, 1f), 0, 0);
+            Instantiate(Drop, spawnPos, Quaternion.identity);
 
-            Vector3 spawnPos = new Vector3(
-                Random.Range(minBounds.x, maxBounds.x), 
-                Random.Range(minBounds.y, maxBounds.y), 
-                Random.Range(minBounds.z, maxBounds.z)  
-            );
-            Instantiate(Drop, spawnPos, transform.rotation);
-
-            num--;
+            count--;
         }
-        if (num == 0)
-        {
-            yield return new WaitForSeconds(2.5f);
 
-            if (!isGameOver)
-            {
-                if (panelManager.WinPanel != null)
-                {
-                    panelManager.WinPanel.SetActive(true);
-                    panelManager.PauseButton.SetActive(false);
-                }
-            }
-            if (isGameOver)
-            {
-                if (panelManager.LosePanel != null)
-                {
-                    panelManager.LosePanel.SetActive(true);
-                    panelManager.PauseButton.SetActive(false);
-                }
-            }
-        }
+        yield return new WaitForSeconds(2f);
+
+        if (panelManager == null) yield break;
+
+        if (!isGameOver)
+                panelManager.WinPanel.SetActive(true);
+        else
+                panelManager.LosePanel.SetActive(true);
+
+        panelManager.PauseButton.SetActive(false);
     }
 
-    public void SpawnLevels()
+    public void SpawnLevel()
     {
-        if (SceneManager.GetActiveScene().name == "GameScene")
+        isWater = false;
+        waterStarted = false;
+        isGameOver = false;
+
+        if (panelManager != null)
         {
-            if (currentLevelPrefabs != null)
-            {
-                Destroy(currentLevelPrefabs.gameObject);
-            }
-
-            Vector3 spawnPos = new Vector3(0, 0, 0);
-            Quaternion spawnRot = Quaternion.Euler(0, 0, 0);
-
-            Instantiate(levels[currnetLevels], spawnPos, spawnRot);
-
-            panelManager.LevelText.text = "Level - " + (currnetLevels + 1);
-
-            currnetLevels++;
+            panelManager.PauseButton.SetActive(true);
+            panelManager.WinPanel.SetActive(false);
+            panelManager.LosePanel.SetActive(false);
         }
-        
+
+        StartCoroutine(LevelSpawner());
     }
 
+    IEnumerator LevelSpawner()
+    {
+        if (isSpawn) yield break;
+        isSpawn = true;
+
+        yield return new WaitForSeconds(0.1f);
+
+        if (currentLevelPrefab != null)
+        {
+            Destroy(currentLevelPrefab);
+            GameObject[] drops = GameObject.FindGameObjectsWithTag("Water");
+            if (drops != null)
+            {
+                for (int i = 0; i < drops.Length; i++) 
+                {
+                    Destroy(drops[i].gameObject);
+                }
+            }
+
+            yield return null;
+        }
+
+        if (currnetLevels >= levels.Count)
+            currnetLevels = 0;
+
+        currentLevelPrefab = Instantiate(levels[currnetLevels], Vector3.zero, Quaternion.identity);
+
+        if (panelManager != null && panelManager.LevelText != null)
+            panelManager.LevelText.text = "Level " + (currnetLevels + 1);
+
+        isSpawn = false;
+    }
 }
