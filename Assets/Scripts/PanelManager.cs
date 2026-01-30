@@ -41,7 +41,9 @@ public class PanelManager : MonoBehaviour
     public void RestartButton()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        gameManager.SpawnLevel();
+        PausePanel.SetActive(false);
+        PauseButton.SetActive(true);
     }
 
     public void NextLevel()

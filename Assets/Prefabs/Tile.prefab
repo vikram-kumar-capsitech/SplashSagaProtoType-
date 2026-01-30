@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 296748224236724723}
   - component: {fileID: 3136221746362195760}
   m_Layer: 0
-  m_Name: 'Tile '
+  m_Name: Tile
   m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,7 +102,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 10
+  m_Mass: 20
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0

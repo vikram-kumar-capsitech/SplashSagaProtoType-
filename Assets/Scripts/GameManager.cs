@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -18,12 +16,16 @@ public class GameManager : MonoBehaviour
     public bool isGameOver;
 
     [Header("Levels")]
-    public List<GameObject> levels;
-    public GameObject currentLevelPrefab;
-    public int currnetLevels = 0;
+    public List<GameObject> levelPrefabs;
+    public List<GameObject> currentLevelPrefab = new List<GameObject>();
+    public int currnetLevels = 1;
 
     PanelManager panelManager;
     bool isSpawn;
+
+    Dictionary<string, GameObject> prefabDict = new Dictionary<string, GameObject>();
+
+    public bool check;
 
     void Awake()
     {
@@ -36,11 +38,14 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        foreach (var p in levelPrefabs)
+        {
+            prefabDict[p.name] = p;
+        }
 
-        
-            isWater = false;
-            waterStarted = false;
-            isGameOver = false;
+        isWater = false;
+        waterStarted = false;
+        isGameOver = false;
     }
 
     void OnEnable()
@@ -82,39 +87,44 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (isWater && !waterStarted)
-        {
-            waterStarted = true;
-            StartCoroutine(SpawnWater());
-        }
-
     }
-    private void FixedUpdate()
+    void FixedUpdate()
     {
-        if (SceneManager.GetActiveScene().name != "GameScene")
-            return;
-
-        if (AllCollidersAreNotTrigger())
+        if (check)
         {
-            isWater = true;
-        }
-    }
 
-    bool AllCollidersAreNotTrigger()
-    {
-        Collider2D[] colliders = GameObject.FindObjectsByType<Collider2D>(
-            FindObjectsSortMode.None
-        );
-        Debug.Log(colliders.Length);
-        foreach (Collider2D col in colliders)
-        {
-            if (col.isTrigger)
+            if (currentLevelPrefab == null || currentLevelPrefab.Count == 0)
+                return;
+
+            bool allDone = true;
+
+            foreach (var obj in currentLevelPrefab)
             {
-                return false;
+                if (obj == null) continue;
+
+                Collider2D col = obj.GetComponent<Collider2D>();
+
+                if (col != null && col.isTrigger)
+                {
+                    allDone = false;
+                    break;
+                }
             }
-        }   
-        return true; 
+
+            if (allDone)
+            {
+                check = false;
+                isWater = true;
+                if (isWater && !waterStarted)
+                {
+                    waterStarted = true;
+                    StartCoroutine(SpawnWater());
+                }
+            }
+        }
+        
     }
+
 
     IEnumerator SpawnWater()
     {
@@ -167,27 +177,43 @@ public class GameManager : MonoBehaviour
 
         if (currentLevelPrefab != null)
         {
-            Destroy(currentLevelPrefab);
-            GameObject[] drops = GameObject.FindGameObjectsWithTag("Water");
-            if (drops != null)
+            for (int i = 0;i< currentLevelPrefab.Count; i++)
             {
-                for (int i = 0; i < drops.Length; i++) 
-                {
-                    Destroy(drops[i].gameObject);
-                }
+                Destroy(currentLevelPrefab[i].gameObject);
             }
-
-            yield return null;
+            currentLevelPrefab.Clear();
         }
 
-        if (currnetLevels >= levels.Count)
-            currnetLevels = 0;
+        GameObject[] drop = GameObject.FindGameObjectsWithTag("Water");
 
-        currentLevelPrefab = Instantiate(levels[currnetLevels], Vector3.zero, Quaternion.identity);
+        if (drop != null)
+        {
+            for(int i = 0; i< drop.Length; i++)
+            {
+                Destroy(drop[i].gameObject);
+            }
+        }
+
+        LevelData data = LevelsData.levels[currnetLevels - 1];
+
+        foreach (var obj in data.objects)
+        {
+            if (prefabDict.ContainsKey(obj.prefab))
+            {
+                GameObject spawned = Instantiate(prefabDict[obj.prefab], new Vector3(obj.x, obj.y,obj.z), Quaternion.Euler(obj.rx,obj.ry,obj.rz));
+                currentLevelPrefab.Add(spawned);
+            }
+            else
+            {
+                Debug.LogError("Prefab NOT FOUND: " + obj.prefab);
+            }
+        }
 
         if (panelManager != null && panelManager.LevelText != null)
-            panelManager.LevelText.text = "Level " + (currnetLevels + 1);
+            panelManager.LevelText.text = "Level " + (currnetLevels);
 
         isSpawn = false;
+        check = true;
+
     }
 }
