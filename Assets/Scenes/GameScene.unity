@@ -201,8 +201,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1722971761}
-        m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
+      - m_Target: {fileID: 1722971763}
+        m_TargetAssemblyTypeName: LevelsManager, Assembly-CSharp
         m_MethodName: RestartButton
         m_Mode: 1
         m_Arguments:
@@ -412,8 +412,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1722971761}
-        m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
+      - m_Target: {fileID: 1722971763}
+        m_TargetAssemblyTypeName: LevelsManager, Assembly-CSharp
         m_MethodName: HomeButton
         m_Mode: 1
         m_Arguments:
@@ -620,8 +620,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1722971761}
-        m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
+      - m_Target: {fileID: 1722971763}
+        m_TargetAssemblyTypeName: LevelsManager, Assembly-CSharp
         m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
@@ -752,8 +752,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1722971761}
-        m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
+      - m_Target: {fileID: 1722971763}
+        m_TargetAssemblyTypeName: LevelsManager, Assembly-CSharp
         m_MethodName: HomeButton
         m_Mode: 1
         m_Arguments:
@@ -884,8 +884,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1722971761}
-        m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
+      - m_Target: {fileID: 1722971763}
+        m_TargetAssemblyTypeName: LevelsManager, Assembly-CSharp
         m_MethodName: RestartButton
         m_Mode: 1
         m_Arguments:
@@ -1153,8 +1153,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1722971761}
-        m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
+      - m_Target: {fileID: 1722971763}
+        m_TargetAssemblyTypeName: LevelsManager, Assembly-CSharp
         m_MethodName: ClosePause
         m_Mode: 1
         m_Arguments:
@@ -1461,7 +1461,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1253254613
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1525,8 +1525,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1722971761}
-        m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
+      - m_Target: {fileID: 1722971763}
+        m_TargetAssemblyTypeName: LevelsManager, Assembly-CSharp
         m_MethodName: PauseButtonClick
         m_Mode: 1
         m_Arguments:
@@ -1657,8 +1657,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1722971761}
-        m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
+      - m_Target: {fileID: 1722971763}
+        m_TargetAssemblyTypeName: LevelsManager, Assembly-CSharp
         m_MethodName: HomeButton
         m_Mode: 1
         m_Arguments:
@@ -1789,8 +1789,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1722971761}
-        m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
+      - m_Target: {fileID: 1722971763}
+        m_TargetAssemblyTypeName: LevelsManager, Assembly-CSharp
         m_MethodName: ClosePause
         m_Mode: 1
         m_Arguments:
@@ -1851,6 +1851,7 @@ GameObject:
   - component: {fileID: 1518231204}
   - component: {fileID: 1518231203}
   - component: {fileID: 1518231202}
+  - component: {fileID: 1518231206}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1945,6 +1946,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!156049354 &1518231206
+Grid:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518231201}
+  m_Enabled: 1
+  m_CellSize: {x: 200, y: 200, z: 200}
+  m_CellGap: {x: 5, y: 5, z: 5}
+  m_CellLayout: 0
+  m_CellSwizzle: 0
 --- !u!1 &1722971760
 GameObject:
   m_ObjectHideFlags: 0
@@ -1954,31 +1967,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1722971762}
-  - component: {fileID: 1722971761}
+  - component: {fileID: 1722971763}
   m_Layer: 0
-  m_Name: Panel Manager
+  m_Name: Level Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1722971761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722971760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dc4ddd3e7d05a64fbfeb2c11ede6084, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PausePanel: {fileID: 1792662105}
-  LosePanel: {fileID: 564088417}
-  WinPanel: {fileID: 871469944}
-  PauseButton: {fileID: 1253254612}
-  LevelText: {fileID: 1939727689}
 --- !u!4 &1722971762
 Transform:
   m_ObjectHideFlags: 0
@@ -1994,6 +1990,48 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1722971763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722971760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7962b1f4f1e88934ca2b837930106fe7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isWater: 0
+  waterStarted: 0
+  isGameOver: 0
+  isSpawn: 0
+  PausePanel: {fileID: 1792662105}
+  LosePanel: {fileID: 564088417}
+  WinPanel: {fileID: 871469944}
+  PauseButton: {fileID: 1253254612}
+  LevelText: {fileID: 1939727689}
+  LockIcon: {fileID: 3683096215072464846, guid: b5185766e2f014f40b556bd60c681a70, type: 3}
+  gridParent: {fileID: 1518231206}
+  levelButtonPrefab: {fileID: 5955469192875635362, guid: 0743a30e4510010428db75d04d3fefa9, type: 3}
+  columns: 4
+  Drop: {fileID: 462792042245389618, guid: 96af390af2a4ca74dba2173976ce77e8, type: 3}
+  num: 130
+  levelPrefabs:
+  - {fileID: 6096853413203747317, guid: 47c67ebf7553b814f81a165b8feabdb8, type: 3}
+  - {fileID: 5744220085587550161, guid: afdeaa60a2158bb4db2229aa05bca787, type: 3}
+  - {fileID: 462792042245389618, guid: 96af390af2a4ca74dba2173976ce77e8, type: 3}
+  - {fileID: 4090327836689954174, guid: cc0c1e7c6dc44bf4ab084b947833abfd, type: 3}
+  - {fileID: 3090084669356079829, guid: f637fcd5524fe8c459299bcda4491fd9, type: 3}
+  - {fileID: 7450927198263177294, guid: 87db61db649d3364689337ed5ac624f8, type: 3}
+  - {fileID: 3579252950729920011, guid: 1212a5a52e5731649acb7a118bbdb644, type: 3}
+  - {fileID: 7307257171366853548, guid: eef56f19a0067ca4aa9fd84cc1b971ae, type: 3}
+  - {fileID: 1219069744344996668, guid: 854cd1aba4f586144839f92154383f7e, type: 3}
+  - {fileID: 1948518702337077438, guid: 80ecd4f8b3abb30429f3fdab82cb1431, type: 3}
+  currentLevelPrefab: []
+  Button: []
+  currnetLevels: 1
+  check: 0
 --- !u!1 &1792662105
 GameObject:
   m_ObjectHideFlags: 0
@@ -2155,8 +2193,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1722971761}
-        m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
+      - m_Target: {fileID: 1722971763}
+        m_TargetAssemblyTypeName: LevelsManager, Assembly-CSharp
         m_MethodName: RestartButton
         m_Mode: 1
         m_Arguments:

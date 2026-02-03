@@ -16,7 +16,7 @@ public class SpawnObject
 public class LevelData
 {
     public int levelNumber;
-    public bool levelLock;
+    public bool levelUnLock;
     public bool levelComplete;
     public SpawnObject[] objects;
 }
@@ -28,7 +28,7 @@ public static class LevelsData
         new LevelData
         {
             levelNumber = 1,
-            levelLock = true,
+            levelUnLock = true,
             levelComplete = false,
             objects = new SpawnObject[]
             {
@@ -41,7 +41,7 @@ public static class LevelsData
         new LevelData
         {
             levelNumber = 2,
-            levelLock = false,
+            levelUnLock = false,
             levelComplete = false,
             objects = new SpawnObject[]
             {
@@ -54,7 +54,7 @@ public static class LevelsData
         new LevelData
         {
             levelNumber = 3,
-            levelLock = false,
+            levelUnLock = false,
             levelComplete = false,
             objects = new SpawnObject[]
             {
@@ -69,21 +69,7 @@ public static class LevelsData
         new LevelData
         {
             levelNumber = 4,
-            levelLock = false,
-            levelComplete = false,
-            objects = new SpawnObject[]
-            {
-                new SpawnObject { prefab = "Sponge", x = 0, y = 2.5f, z = 0, rx = 0, ry = 0, rz = 0 },
-                new SpawnObject { prefab = "L-Shape", x = 0f, y =1.15f, z = 0, rx = 0, ry = 0, rz = 0},
-                new SpawnObject { prefab = "L-Shape", x = 0f, y = 3f, z = 0, rx = 0, ry = 0, rz = 180 },
-                new SpawnObject { prefab = "Basin", x = 0f, y = -6.5f, z = 0 , rx = 0, ry = 0, rz = 0}
-            }
-        },
-
-        new LevelData
-        {
-            levelNumber = 5,
-            levelLock = false,
+            levelUnLock = false,
             levelComplete = false,
             objects = new SpawnObject[]
             {
@@ -93,6 +79,21 @@ public static class LevelsData
                 new SpawnObject { prefab = "Square", x = 0f, y = 1.5f, z = 0, rx = 0, ry = 0, rz = 0},
                 new SpawnObject { prefab = "Basin1", x = 0f, y = -5.47f, z = 0, rx = 0, ry = 0, rz = 0}
             }
-        }
+        },
+
+        new LevelData
+        {
+            levelNumber = 5,
+            levelUnLock = false,
+            levelComplete = false,
+            objects = new SpawnObject[]
+            {
+                new SpawnObject { prefab = "Sponge", x = 0, y = 3.5f, z = 0, rx = 0, ry = 0, rz = 0 },
+                new SpawnObject { prefab = "Tile", x = -2.5f, y = 3.5f, z = 0, rx = 0, ry = 0, rz = 0 },
+                new SpawnObject { prefab = "Tile", x = 2.5f, y = 3.5f, z = 0, rx = 0, ry = 0, rz = 0 },
+                new SpawnObject { prefab = "Square", x = 0.2f, y = 1f, z = 0, rx = 0, ry = 0, rz = 0},
+                new SpawnObject { prefab = "Basin1", x = 0f, y = -5.47f, z = 0, rx = 0, ry = 0, rz = 0}
+            }
+        },
     };
 }

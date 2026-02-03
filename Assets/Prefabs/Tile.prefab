@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7223950226953391895, guid: 11b66d3838862554a946af752f37ed36, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.8}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.69803923}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -115,7 +115,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!114 &296748224236724723
 MonoBehaviour:
@@ -192,6 +192,14 @@ PolygonCollider2D:
       - {x: 2.9199998, y: 3.78}
       - {x: 2.79, y: 3.81}
       - {x: 2.7, y: 3.82}
+      - {x: 1.3373148, y: 3.82}
+      - {x: 0.18722415, y: 3.82}
+      - {x: -0.8023888, y: 3.82}
+      - {x: -1.0431051, y: 3.82}
+      - {x: -1.3105685, y: 3.82}
+      - {x: -1.6047776, y: 3.82}
+      - {x: -1.7920017, y: 3.82}
+      - {x: -2.2466886, y: 3.82}
       - {x: -2.7, y: 3.82}
       - {x: -2.8899999, y: 3.8}
       - {x: -3.22, y: 3.6899998}
@@ -208,8 +216,10 @@ PolygonCollider2D:
       - {x: -3.22, y: -3.6399999}
       - {x: -2.9299998, y: -3.77}
       - {x: -2.74, y: -3.81}
+      - {x: -2.0327187, y: -3.8100002}
+      - {x: -1.9792259, y: -3.8100002}
       - {x: 2.6599998, y: -3.81}
       - {x: 2.82, y: -3.79}
       - {x: 2.96, y: -3.76}
       - {x: 3.1399999, y: -3.6899998}
-  m_UseDelaunayMesh: 0
+  m_UseDelaunayMesh: 1
