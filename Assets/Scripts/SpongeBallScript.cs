@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class SpongeBallScript : MonoBehaviour
 {
-    LevelsManager levelsManager;
+    GameManager levelsManager;
     SpriteRenderer image;
 
     void Start()
     {
-        levelsManager = GameObject.Find("Level Manager").GetComponent<LevelsManager>();
+        levelsManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         image = GetComponent<SpriteRenderer>();
     }
 
