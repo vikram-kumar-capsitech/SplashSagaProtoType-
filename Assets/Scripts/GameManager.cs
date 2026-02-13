@@ -37,7 +37,6 @@ public class GameManager : MonoBehaviour
     private Coroutine waterCoroutine;
     private bool check;
     private Camera mainCamera;
-    private GameObject background;
     private GameObject WaterDrop;
     private List<GameObject> activeWaterDrops = new List<GameObject>();
 
@@ -132,7 +131,6 @@ public class GameManager : MonoBehaviour
 
     void SpawnLevelButton()
     {
-        Debug.Log("SpawnLevels");
         int totalLevels = allLevels.levels.Length;
 
         for (int i = 0; i < totalLevels; i++)
@@ -192,6 +190,7 @@ public class GameManager : MonoBehaviour
     public void SpawnLevel()
     {
         levelSelectionScreen.SetActive(false);
+        HomeScreen.SetActive(false);
         GamePlayScreen.SetActive(true);
         StopWaterCoroutine();
         CleanupButtons();
@@ -375,11 +374,9 @@ public class GameManager : MonoBehaviour
 
     public void StartButton()
     {
-        if (HomeScreen != null)
-            HomeScreen.SetActive(false);
-
-        if(levelSelectionScreen != null)
-            levelSelectionScreen.SetActive(true);
+        HomeScreen.SetActive(false);
+        GamePlayScreen.SetActive(false);
+        levelSelectionScreen.SetActive(true);
 
         SetupUI();
         ResetGameState();
@@ -398,11 +395,9 @@ public class GameManager : MonoBehaviour
         CleanupWaterDrops();
         Time.timeScale = 1f;
 
-        if (GamePlayScreen != null)
-            GamePlayScreen.SetActive(false);
-
-        if (HomeScreen != null)
-            HomeScreen.SetActive(true);
+        GamePlayScreen.SetActive(false);
+        levelSelectionScreen.SetActive(false);
+        HomeScreen.SetActive(true);
     }
 
     public void RestartButton()

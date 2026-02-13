@@ -15,7 +15,7 @@ MonoBehaviour:
   levels:
   - levelNumber: 1
     levelUnLock: 1
-    levelComplete: 0
+    levelComplete: 1
     objects:
     - prefab: {fileID: 3090084669356079829, guid: f637fcd5524fe8c459299bcda4491fd9, type: 3}
       position: {x: 0, y: 3, z: 0}
@@ -27,7 +27,7 @@ MonoBehaviour:
       position: {x: 0, y: -6.5, z: 0}
       rotation: {x: 0, y: 0, z: 0}
   - levelNumber: 2
-    levelUnLock: 0
+    levelUnLock: 1
     levelComplete: 0
     objects:
     - prefab: {fileID: 3090084669356079829, guid: f637fcd5524fe8c459299bcda4491fd9, type: 3}
