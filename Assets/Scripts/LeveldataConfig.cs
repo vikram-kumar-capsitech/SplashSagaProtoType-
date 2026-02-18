@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelData", menuName = "Game/Level")]
-public class LevelDataSO : ScriptableObject
+public class LevelDataConfig : ScriptableObject
 {
     [System.Serializable]
     public class SpawnObject

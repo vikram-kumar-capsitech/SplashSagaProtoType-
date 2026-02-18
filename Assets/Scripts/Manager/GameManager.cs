@@ -7,37 +7,30 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     [Header("UI GameObject & WaterDrops")]
-    [SerializeField] private GameObject PausePanel;
-    [SerializeField] private GameObject LosePanel;
-    [SerializeField] private GameObject WinPanel;
-    [SerializeField] private GameObject PauseButton;
-    [SerializeField] private GameObject homeButton;
-    [SerializeField] private Sprite LockIcon;
     [SerializeField] private TextMeshProUGUI LevelText;
-    [SerializeField] private GameObject HomeScreen;
-    [SerializeField] private GameObject levelSelectionScreen;
-    [SerializeField] private GameObject GamePlayScreen;
     [SerializeField] private GameObject Drop;
+    [SerializeField] private GameObject WaterDrop;
 
     [Header("Level Manager")]
     [SerializeField] private GameObject gridParent;
     [SerializeField] private GameObject levelButtonPrefab;
-    [SerializeField] private LevelDataSO allLevels;
+    [SerializeField] private LevelDataConfig allLevels;
+    [SerializeField] private UIManager uiManager;
 
     [Header("Game Bool Value")]
     private bool isWater;
     private bool waterStarted;
     private bool isSpawn;
-    private bool isPaused = false;
+    private bool isPaused;
     private int num = 130;
-    private List<GameObject> currentLevelPrefab = new List<GameObject>();
-    private List<GameObject> LevelButton = new List<GameObject>();
     private int currnetLevels = 0;
     private int remainingWaterDrops;
     private Coroutine waterCoroutine;
     private bool check;
     private Camera mainCamera;
-    private GameObject WaterDrop;
+
+    private List<GameObject> currentLevelPrefab = new List<GameObject>();
+    private List<GameObject> LevelButton = new List<GameObject>();
     private List<GameObject> activeWaterDrops = new List<GameObject>();
 
     public bool isGameOver;
@@ -45,7 +38,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
-        WaterDrop = GameObject.Find("WaterDrops");
     }
     void Update()
     {
@@ -117,18 +109,6 @@ public class GameManager : MonoBehaviour
         check = false;
     }
 
-    void SetupUI()
-    {
-        if (PauseButton != null)
-            PauseButton.SetActive(true);
-        if (WinPanel != null)
-            WinPanel.SetActive(false);
-        if (LosePanel != null)
-            LosePanel.SetActive(false);
-        if (PausePanel != null)
-            PausePanel.SetActive(false);
-    }
-
     void SpawnLevelButton()
     {
         int totalLevels = allLevels.levels.Length;
@@ -144,58 +124,27 @@ public class GameManager : MonoBehaviour
                 gridParent.transform
             );
 
-            if (button == null) return;
-
             LevelButton.Add(button);
 
-            LevelDataSO level = allLevels;
-            TextMeshProUGUI txt = button.GetComponentInChildren<TextMeshProUGUI>();
+            button.GetComponent<LevelButton>().levelNumber = index;
+
             Button buttonComponent = button.GetComponent<Button>();
-            Image buttonImage = button.GetComponent<Image>();
 
-            GameObject completedMedal = button.transform.Find("Image").gameObject;
-
-            if (level == null) return;
-
-            if (level.levels[index].levelUnLock)
+            buttonComponent.onClick.RemoveAllListeners();
+            buttonComponent.onClick.AddListener(() =>
             {
-                if (txt != null)
-                    txt.text = level.levels[index].levelNumber.ToString();
-
-                int safeIndex = index;
-                buttonComponent.onClick.RemoveAllListeners();
-                buttonComponent.onClick.AddListener(() =>
-                {
-                    currnetLevels = safeIndex;
-                    SpawnLevel();
-                });
-
-                if (level.levels[index].levelComplete == true)
-                {
-                    completedMedal.SetActive(true);
-                }
-            }
-            else
-            {
-                if (txt != null)
-                    txt.text = "";
-
-                if (LockIcon != null && buttonImage != null)
-                    buttonImage.sprite = LockIcon;
-
-                buttonComponent.interactable = false;
-            }
+                currnetLevels = index;
+                SpawnLevel();
+            });
         }
     }
     public void SpawnLevel()
     {
-        levelSelectionScreen.SetActive(false);
-        HomeScreen.SetActive(false);
-        GamePlayScreen.SetActive(true);
+        uiManager.ScreenHandle(false, false, true);
+        uiManager.SetUpDialog(false, false, false, true);
         StopWaterCoroutine();
         CleanupButtons();
         ResetGameState();
-        SetupUI();
         StartCoroutine(LevelSpawner());
     }
 
@@ -235,11 +184,10 @@ public class GameManager : MonoBehaviour
 
         if (currnetLevels >= 0 && currnetLevels < allLevels.levels.Length)
         {
-            LevelDataSO data = allLevels;
 
-            if (data != null && data.levels != null)
+            if (allLevels != null && allLevels.levels != null)
             {
-                foreach (var obj in data.levels[currnetLevels].objects)
+                foreach (var obj in allLevels.levels[currnetLevels].objects)
                 {
                     if (obj != null)
                     {
@@ -253,8 +201,8 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            if (LevelText != null && data != null)
-                LevelText.text = "Level " + data.levels[currnetLevels].levelNumber;
+            if (LevelText != null && allLevels != null)
+                LevelText.text = "Level " + allLevels.levels[currnetLevels].levelNumber;
         }
 
         isSpawn = false;
@@ -271,13 +219,6 @@ public class GameManager : MonoBehaviour
         currentLevelPrefab.Clear();
 
         CleanupWaterDrops();
-
-        GameObject[] strayDrops = GameObject.FindGameObjectsWithTag("Water");
-        foreach (GameObject drop in strayDrops)
-        {
-            if (drop != null)
-                Destroy(drop);
-        }
     }
 
 
@@ -326,31 +267,20 @@ public class GameManager : MonoBehaviour
                 if (currnetLevels + 1 < allLevels.levels.Length)
                     allLevels.levels[currnetLevels + 1].levelUnLock = true;
             }
-
-            if (WinPanel != null)
-                WinPanel.SetActive(true);
+            uiManager.SetUpDialog(false, true, false, true);
         }
         else
         {
-            if (LosePanel != null)
-                LosePanel.SetActive(true);
+            uiManager.SetUpDialog(false, false, true, false);
         }
-
-        if (PauseButton != null)
-            PauseButton.SetActive(false);
-        if (PausePanel != null)
-            PausePanel.SetActive(false);
     }
 
     public void PauseButtonClick()
     {
         isPaused = true;
         Time.timeScale = 0f;
+        uiManager.SetUpDialog(true, false, false, false);
 
-        if (PausePanel != null)
-            PausePanel.SetActive(true);
-        if (PauseButton != null)
-            PauseButton.SetActive(false);
     }
 
     public void ClosePause()
@@ -358,10 +288,7 @@ public class GameManager : MonoBehaviour
         isPaused = false;
         Time.timeScale = 1f;
 
-        if (PausePanel != null)
-            PausePanel.SetActive(false);
-        if (PauseButton != null)
-            PauseButton.SetActive(true);
+        uiManager.SetUpDialog(false, false, false, true);
 
         if (isWater && waterStarted && remainingWaterDrops > 0)
         {
@@ -374,16 +301,10 @@ public class GameManager : MonoBehaviour
 
     public void StartButton()
     {
-        HomeScreen.SetActive(false);
-        GamePlayScreen.SetActive(false);
-        levelSelectionScreen.SetActive(true);
-
-        SetupUI();
+        uiManager.ScreenHandle(false, true, false);
+        uiManager.SetUpDialog(false, false, false, true);
         ResetGameState();
         SpawnLevelButton();
-
-        if (LevelText != null)
-            LevelText.text = "Levels";
     }
 
     public void HomeButton()
@@ -394,10 +315,7 @@ public class GameManager : MonoBehaviour
         DestroyPreviousObjects();
         CleanupWaterDrops();
         Time.timeScale = 1f;
-
-        GamePlayScreen.SetActive(false);
-        levelSelectionScreen.SetActive(false);
-        HomeScreen.SetActive(true);
+        uiManager.ScreenHandle(true, false, false);
     }
 
     public void RestartButton()
@@ -407,7 +325,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         ResetGameState();
-        SetupUI();
+        uiManager.SetUpDialog(false, false, false, true);
         SpawnLevel();
     }
 

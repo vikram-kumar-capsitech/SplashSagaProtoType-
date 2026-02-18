@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class SpongeBallScript : MonoBehaviour
 {
-    GameManager levelsManager;
+    GameManager GameManager;
     SpriteRenderer image;
 
     void Start()
     {
-        levelsManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        GameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         image = GetComponent<SpriteRenderer>();
     }
 
@@ -15,7 +15,7 @@ public class SpongeBallScript : MonoBehaviour
     {
         if (transform.position.y < -10f)
         {
-            levelsManager.isGameOver = true;
+            GameManager.isGameOver = true;
             Destroy(gameObject);
         }
     }
@@ -24,7 +24,7 @@ public class SpongeBallScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Water"))
         {
             image.color = Color.gray;
-            levelsManager.isGameOver = true;
+            GameManager.isGameOver = true;
         }
     }
 }
