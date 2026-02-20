@@ -1,2 +1,17 @@
 fileFormatVersion: 2
 guid: 21cc0e1389c57e44ea4c7fa2344cc31e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - gameManager: {instanceID: 0}
+  - gridParent: {instanceID: 0}
+  - levelButtonPrefab: {instanceID: 0}
+  - LevelText: {instanceID: 0}
+  - allLevels: {instanceID: 0}
+  - uiManager: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

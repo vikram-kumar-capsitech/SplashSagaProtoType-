@@ -1,37 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [Header("UI GameObject & WaterDrops")]
-    [SerializeField] private TextMeshProUGUI LevelText;
+    [Header("WaterDrops")]
     [SerializeField] private GameObject Drop;
     [SerializeField] private GameObject WaterDrop;
 
-    [Header("Level Manager")]
-    [SerializeField] private GameObject gridParent;
-    [SerializeField] private GameObject levelButtonPrefab;
-    [SerializeField] private LevelDataConfig allLevels;
+    [Header("Managers")]
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private LevelManager levelManager;
 
-    [Header("Game Bool Value")]
     private bool isWater;
     private bool waterStarted;
-    private bool isSpawn;
-    private bool isPaused;
-    private int num = 130;
-    private int currnetLevels = 0;
+    public bool isPaused;
+    private int dropNum = 130;
     private int remainingWaterDrops;
     private Coroutine waterCoroutine;
-    private bool check;
+    public bool check;
     private Camera mainCamera;
 
-    private List<GameObject> currentLevelPrefab = new List<GameObject>();
-    private List<GameObject> LevelButton = new List<GameObject>();
     private List<GameObject> activeWaterDrops = new List<GameObject>();
+    //private List<Transform> 
 
     public bool isGameOver;
 
@@ -42,12 +33,12 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         HandleMouseInput();
-        CheckLevelCompletion();
+        CheckObjectStatus();
     }
 
     void HandleMouseInput()
     {
-        if (Input.GetMouseButtonDown(0) && Time.timeScale > 0f && mainCamera != null)
+        if (Input.GetMouseButtonDown(0) && Time.timeScale > 0f && !waterStarted)
         {
             Vector2 mousepos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             Collider2D hit = Physics2D.OverlapCircle(mousepos, 0.1f);
@@ -63,18 +54,24 @@ public class GameManager : MonoBehaviour
                     sr.color = Color.white;
             }
         }
+
+        if (isGameOver)
+        {
+            levelManager.ShowGameResult();
+        }
+
     }
 
-    void CheckLevelCompletion()
+    void CheckObjectStatus()
     {
-        if (!check || currentLevelPrefab == null || currentLevelPrefab.Count == 0)
+        if (!check || levelManager.currentLevelPrefab == null || levelManager.currentLevelPrefab.Count == 0)
             return;
 
         bool allDone = true;
 
-        for (int i = 0; i < currentLevelPrefab.Count; i++)
+        for (int i = 0; i < levelManager.currentLevelPrefab.Count; i++)
         {
-            GameObject obj = currentLevelPrefab[i];
+            GameObject obj = levelManager.currentLevelPrefab[i];
             if (obj == null) continue;
 
             Collider2D col = obj.GetComponent<Collider2D>();
@@ -92,137 +89,23 @@ public class GameManager : MonoBehaviour
             if (isWater && !waterStarted)
             {
                 waterStarted = true;
-                remainingWaterDrops = num;
+                remainingWaterDrops = dropNum;
                 waterCoroutine = StartCoroutine(SpawnWater());
             }
         }
     }
 
-    void ResetGameState()
+    public void ResetGameState()
     {
         isWater = false;
         waterStarted = false;
         isGameOver = false;
-        isSpawn = false;
         isPaused = false;
-        remainingWaterDrops = num;
+        remainingWaterDrops = dropNum;
         check = false;
     }
 
-    void SpawnLevelButton()
-    {
-        int totalLevels = allLevels.levels.Length;
-
-        for (int i = 0; i < totalLevels; i++)
-        {
-            int index = i;
-
-            GameObject button = Instantiate(
-                levelButtonPrefab,
-                gridParent.transform.position,
-                Quaternion.identity,
-                gridParent.transform
-            );
-
-            LevelButton.Add(button);
-
-            button.GetComponent<LevelButton>().levelNumber = index;
-
-            Button buttonComponent = button.GetComponent<Button>();
-
-            buttonComponent.onClick.RemoveAllListeners();
-            buttonComponent.onClick.AddListener(() =>
-            {
-                currnetLevels = index;
-                SpawnLevel();
-            });
-        }
-    }
-    public void SpawnLevel()
-    {
-        uiManager.ScreenHandle(false, false, true);
-        uiManager.SetUpDialog(false, false, false, true);
-        StopWaterCoroutine();
-        CleanupButtons();
-        ResetGameState();
-        StartCoroutine(LevelSpawner());
-    }
-
-    void StopWaterCoroutine()
-    {
-        if (waterCoroutine != null)
-        {
-            StopCoroutine(waterCoroutine);
-            waterCoroutine = null;
-        }
-    }
-
-    void CleanupButtons()
-    {
-        foreach (var b in LevelButton)
-        {
-            if (b != null)
-                b.GetComponent<Button>()?.onClick.RemoveAllListeners();
-        }
-
-        for (int i = LevelButton.Count - 1; i >= 0; i--)
-        {
-            if (LevelButton[i] != null)
-                Destroy(LevelButton[i]);
-        }
-        LevelButton.Clear();
-    }
-
-    IEnumerator LevelSpawner()
-    {
-        if (isSpawn) yield break;
-
-        isSpawn = true;
-        yield return new WaitForSeconds(0.1f);
-
-        DestroyPreviousObjects();
-
-        if (currnetLevels >= 0 && currnetLevels < allLevels.levels.Length)
-        {
-
-            if (allLevels != null && allLevels.levels != null)
-            {
-                foreach (var obj in allLevels.levels[currnetLevels].objects)
-                {
-                    if (obj != null)
-                    {
-                        GameObject spawned = Instantiate(
-                            obj.prefab,
-                            obj.position,
-                            Quaternion.Euler(obj.rotation)
-                        );
-                        currentLevelPrefab.Add(spawned);
-                    }
-                }
-            }
-
-            if (LevelText != null && allLevels != null)
-                LevelText.text = "Level " + allLevels.levels[currnetLevels].levelNumber;
-        }
-
-        isSpawn = false;
-        check = true;
-    }
-
-    void DestroyPreviousObjects()
-    {
-        for (int i = currentLevelPrefab.Count - 1; i >= 0; i--)
-        {
-            if (currentLevelPrefab[i] != null)
-                Destroy(currentLevelPrefab[i]);
-        }
-        currentLevelPrefab.Clear();
-
-        CleanupWaterDrops();
-    }
-
-
-    IEnumerator SpawnWater()
+    public IEnumerator SpawnWater()
     {
         if (Drop == null) yield break;
 
@@ -233,18 +116,20 @@ public class GameManager : MonoBehaviour
 
             yield return new WaitForSecondsRealtime(0.05f);
 
-            Vector3 spawnPos = transform.position + new Vector3(UnityEngine.Random.Range(-1f, 1f), 8f, 0);
+            Vector3 spawnPos = transform.position + new Vector3(Random.Range(-1f, 1f), 8f, 0);
             GameObject drop = Instantiate(Drop, spawnPos, Quaternion.identity,WaterDrop.transform);
             activeWaterDrops.Add(drop);
 
             remainingWaterDrops--;
         }
-
-        yield return new WaitForSecondsRealtime(2f);
-        ShowGameResult();
+        if (!isGameOver)
+        {
+            yield return new WaitForSecondsRealtime(2f);
+            levelManager.ShowGameResult();
+        }
     }
 
-    void CleanupWaterDrops()
+    public void CleanupWaterDrops()
     {
         for (int i = activeWaterDrops.Count - 1; i >= 0; i--)
         {
@@ -254,25 +139,12 @@ public class GameManager : MonoBehaviour
         activeWaterDrops.Clear();
     }
 
-    void ShowGameResult()
+    public void StartButton()
     {
-        CleanupWaterDrops();
-
-        if (!isGameOver)
-        {
-            if (currnetLevels >= 0 && currnetLevels < allLevels.levels.Length)
-            {
-                allLevels.levels[currnetLevels].levelComplete = true;
-
-                if (currnetLevels + 1 < allLevels.levels.Length)
-                    allLevels.levels[currnetLevels + 1].levelUnLock = true;
-            }
-            uiManager.SetUpDialog(false, true, false, true);
-        }
-        else
-        {
-            uiManager.SetUpDialog(false, false, true, false);
-        }
+        uiManager.ScreenHandle(false, true, false);
+        uiManager.SetUpDialog(false, false, false, true);
+        ResetGameState();
+        levelManager.SpawnLevelButton();
     }
 
     public void PauseButtonClick()
@@ -287,60 +159,52 @@ public class GameManager : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = 1f;
-
         uiManager.SetUpDialog(false, false, false, true);
 
         if (isWater && waterStarted && remainingWaterDrops > 0)
         {
             if (waterCoroutine != null)
                 StopCoroutine(waterCoroutine);
-
             waterCoroutine = StartCoroutine(SpawnWater());
         }
     }
 
-    public void StartButton()
+    public void RestartButton()
     {
-        uiManager.ScreenHandle(false, true, false);
-        uiManager.SetUpDialog(false, false, false, true);
+        waterCoroutine = null;
+        Time.timeScale = 1f;
         ResetGameState();
-        SpawnLevelButton();
+        levelManager.SpawnLevel();
+    }
+
+    public void NextLevel()
+    {
+        CleanupWaterDrops();
+        levelManager.SpawnNextLevel();
     }
 
     public void HomeButton()
     {
         StopAllCoroutines();
-        CleanupButtons();
         ResetGameState();
-        DestroyPreviousObjects();
+        levelManager.CleanupButtons();
+        levelManager.DestroyPreviousObjects();
         CleanupWaterDrops();
         Time.timeScale = 1f;
         uiManager.ScreenHandle(true, false, false);
     }
 
-    public void RestartButton()
+    public void SaveSteps()
     {
-        StopAllCoroutines();
-        waterCoroutine = null;
-        Time.timeScale = 1f;
 
-        ResetGameState();
-        uiManager.SetUpDialog(false, false, false, true);
-        SpawnLevel();
+    }
+    public void UndoSteps()
+    {
+
     }
 
-    public void NextLevel()
+    public void GameHints()
     {
-        currnetLevels++;
-        if (currnetLevels < allLevels.levels.Length)
-        {
-            Time.timeScale = 1f;
-            isPaused = false;
-            SpawnLevel();
-        }
-        else
-        {
-            HomeButton();
-        }
+
     }
 }

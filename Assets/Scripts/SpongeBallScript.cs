@@ -7,7 +7,7 @@ public class SpongeBallScript : MonoBehaviour
 
     void Start()
     {
-        GameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        GameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
         image = GetComponent<SpriteRenderer>();
     }
 
