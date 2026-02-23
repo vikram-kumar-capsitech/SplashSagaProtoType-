@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
     private Camera mainCamera;
 
     private List<GameObject> activeWaterDrops = new List<GameObject>();
-    //private List<Transform> 
 
     public bool isGameOver;
 
