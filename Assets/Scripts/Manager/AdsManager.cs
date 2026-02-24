@@ -11,21 +11,21 @@ public class AdsManager : MonoBehaviour
         string bannerId = "ca-app-pub-3940256099942544/6300978111";
         string interId = "ca-app-pub-3940256099942544/1033173712";
         string rewardId = "ca-app-pub-3940256099942544/5224354917";
-        string nativeId = "ca-app-pub-3940256099942544/2247696110";
+        //string nativeId = "ca-app-pub-3940256099942544/2247696110";
 
 #elif UNITY_IPHONE
 
         string bannerId = "ca-app-pub-3940256099942544/2934735716";
         string interId = "ca-app-pub-3940256099942544/4411468910";
         string rewardId = "ca-app-pub-3940256099942544/1712485313";
-        string nativeId = "ca-app-pub-3940256099942544/3986624511";
+        //string nativeId = "ca-app-pub-3940256099942544/3986624511";
 
 #endif
 
     BannerView bannerView;
     InterstitialAd interstitialAd;
     RewardedAd rewardedAd;
-    NativeAd nativeAd;
+    //NativeAd nativeAd;
 
     private void Start()
     {
@@ -142,6 +142,8 @@ public class AdsManager : MonoBehaviour
 
             interstitialEvent(interstitialAd);
         });
+
+        showInterstitialAd();
     }
     public void showInterstitialAd() 
     {

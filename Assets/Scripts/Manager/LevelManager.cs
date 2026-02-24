@@ -4,6 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+[System.Serializable]
+public class LevelPrefab
+{
+    public GameObject currentPrefabs;
+    public Vector3 prefabPosition;
+}
+
 public class LevelManager : MonoBehaviour
 {
     [Header("Level Manager")]
@@ -15,11 +22,13 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private UIManager uiManager;
 
-    public List<GameObject> currentLevelPrefab = new List<GameObject>();
+    //public List<GameObject> currentLevelPrefab = new List<GameObject>();
+    public List<LevelPrefab> levelPrefab = new List<LevelPrefab>();
     public List<GameObject> LevelButton = new List<GameObject>();
+    public List<GameObject> Steps = new List<GameObject>();
 
-    private bool isSpawn;
 
+    bool isSpawn;
     int Level;
 
     public void SpawnLevelButton()
@@ -54,6 +63,7 @@ public class LevelManager : MonoBehaviour
 
     public void SpawnLevel()
     {
+        Steps.Clear();
         uiManager.ScreenHandle(false, false, true);
         uiManager.SetUpDialog(false, false, false, true);
         isSpawn = false;
@@ -101,7 +111,8 @@ public class LevelManager : MonoBehaviour
                             obj.position,
                             Quaternion.Euler(obj.rotation)
                         );
-                        currentLevelPrefab.Add(spawned);
+
+                        levelPrefab.Add(new LevelPrefab { currentPrefabs = spawned, prefabPosition = obj.position } );
                     }
                 }
             }
@@ -116,12 +127,12 @@ public class LevelManager : MonoBehaviour
 
     public void DestroyPreviousObjects()
     {
-        for (int i = currentLevelPrefab.Count - 1; i >= 0; i--)
+        for (int i = levelPrefab.Count - 1; i >= 0; i--)
         {
-            if (currentLevelPrefab[i] != null)
-                Destroy(currentLevelPrefab[i]);
+            if (levelPrefab[i] != null)
+                Destroy(levelPrefab[i].currentPrefabs);
         }
-        currentLevelPrefab.Clear();
+        levelPrefab.Clear();
 
         gameManager.CleanupWaterDrops();
     }
@@ -159,4 +170,38 @@ public class LevelManager : MonoBehaviour
             gameManager.HomeButton();
         }
     }
+
+    public void undo()
+    {
+        if(Steps.Count > 0)
+        {
+            GameObject currentObject = Steps[Steps.Count - 1];
+
+            for(int i = 0;i < levelPrefab.Count;i++)
+            {
+                if (currentObject == levelPrefab[i].currentPrefabs)
+                {
+                    Rigidbody2D rb = currentObject.GetComponent<Rigidbody2D>();
+                    if(rb != null)
+                    {
+                        rb.gravityScale = 0f;
+                        rb.linearVelocity = Vector2.zero;
+                    }
+
+                    Collider2D col = currentObject.GetComponent<Collider2D>();
+                    if(col != null)
+                        col.isTrigger = true;
+
+                    SpriteRenderer sr = currentObject.GetComponent<SpriteRenderer>();
+                    if(sr != null)
+                        sr.color = new Color(1f, 1f, 1f, 0.7f);
+
+                    currentObject.transform.position = levelPrefab[i].prefabPosition;
+                    Steps.Remove(currentObject);
+                }
+            }
+        }
+    }
 }
+
+

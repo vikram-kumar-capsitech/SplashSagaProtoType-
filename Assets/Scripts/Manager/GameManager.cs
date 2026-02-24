@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [Header("Managers")]
     [SerializeField] private UIManager uiManager;
     [SerializeField] private LevelManager levelManager;
+    [SerializeField] private AdsManager adsManager;
 
     private bool isWater;
     private bool waterStarted;
@@ -24,9 +25,12 @@ public class GameManager : MonoBehaviour
     private List<GameObject> activeWaterDrops = new List<GameObject>();
 
     public bool isGameOver;
+    private int interAdNum;
+    bool result;
 
     void Start()
     {
+        interAdNum = Random.Range(2, 6);
         mainCamera = Camera.main;
     }
     void Update()
@@ -46,6 +50,10 @@ public class GameManager : MonoBehaviour
             {
                 Rigidbody2D rb = hit.GetComponent<Rigidbody2D>();
                 if (rb != null)
+                    if (rb.gravityScale == 0f)
+                    {
+                        levelManager.Steps.Add(hit.gameObject);
+                    }
                     rb.gravityScale = 1f;
 
                 SpriteRenderer sr = hit.GetComponent<SpriteRenderer>();
@@ -54,23 +62,24 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (isGameOver)
+        if (isGameOver && !result)
         {
             levelManager.ShowGameResult();
+            result = true;
         }
 
     }
 
     void CheckObjectStatus()
     {
-        if (!check || levelManager.currentLevelPrefab == null || levelManager.currentLevelPrefab.Count == 0)
+        if (!check || levelManager.levelPrefab == null || levelManager.levelPrefab.Count == 0)
             return;
 
         bool allDone = true;
 
-        for (int i = 0; i < levelManager.currentLevelPrefab.Count; i++)
+        for (int i = 0; i < levelManager.levelPrefab.Count; i++)
         {
-            GameObject obj = levelManager.currentLevelPrefab[i];
+            GameObject obj = levelManager.levelPrefab[i].currentPrefabs;
             if (obj == null) continue;
 
             Collider2D col = obj.GetComponent<Collider2D>();
@@ -144,6 +153,7 @@ public class GameManager : MonoBehaviour
         uiManager.SetUpDialog(false, false, false, true);
         ResetGameState();
         levelManager.SpawnLevelButton();
+        adsManager.loadBanner();
     }
 
     public void PauseButtonClick()
@@ -174,12 +184,27 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         ResetGameState();
         levelManager.SpawnLevel();
+        if (interAdNum != 0)
+        {
+            interAdNum--;
+        }
     }
 
     public void NextLevel()
     {
         CleanupWaterDrops();
         levelManager.SpawnNextLevel();
+
+        if(interAdNum == 0)
+        {
+            int num = Random.Range(2,6);
+            interAdNum = num;
+            adsManager.loadInterstitialAd();
+        }
+        else
+        {
+            interAdNum--;
+        }
     }
 
     public void HomeButton()
@@ -191,6 +216,11 @@ public class GameManager : MonoBehaviour
         CleanupWaterDrops();
         Time.timeScale = 1f;
         uiManager.ScreenHandle(true, false, false);
+        adsManager.destroyBanner();
+        if(interAdNum != 0)
+        {
+            interAdNum--;
+        }
     }
 
     public void SaveSteps()
@@ -199,11 +229,14 @@ public class GameManager : MonoBehaviour
     }
     public void UndoSteps()
     {
-
+        if (!waterStarted)
+        {
+            levelManager.undo();
+        }
     }
 
     public void GameHints()
     {
-
+        adsManager.loadRewardAd();
     }
 }
